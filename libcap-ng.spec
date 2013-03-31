@@ -3,12 +3,13 @@
 Summary: An alternate posix capabilities library
 Name: libcap-ng
 Version: 0.6.4
-Release: 3%{?dist}
+Release: 3%{?dist}.1
 License: LGPLv2+
 Group: System Environment/Libraries
 URL: http://people.redhat.com/sgrubb/libcap-ng
 Source0: http://people.redhat.com/sgrubb/libcap-ng/%{name}-%{version}.tar.gz
 Patch1: libcap-ng-0.6.5-device.patch
+Patch2: libcap-ng-0.6.5-segv.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: kernel-headers >= 2.6.11 
 BuildRequires: libattr-devel
@@ -53,6 +54,7 @@ lets you set the file system based capabilities.
 %prep
 %setup -q
 %patch1 -p1
+%patch2 -p1
 
 %build
 %configure --libdir=/%{_lib}
@@ -111,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(0644,root,root) %{_mandir}/man8/*
 
 %changelog
+* Fri Nov 05 2010 Steve Grubb <sgrubb@redhat.com> 0.6.4-3.el6.1
+resolves: #650131 - filecap segfaults
+
 * Thu Jun 17 2010 Steve Grubb <sgrubb@redhat.com> 0.6.4-3
 resolves: #595673 - Crash in kernel by running 'filecap /dev/watchdog'
 
